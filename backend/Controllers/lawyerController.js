@@ -1,4 +1,5 @@
 import Lawyer from "../models/LawyerSchema.js";
+import Booking from "../models/BookingSchema.js";
 
 // update user
 export const updateLawyer = async (req, res) => {
@@ -93,5 +94,32 @@ export const getAllLawyer = async (req, res) => {
       success: false,
       message: "Not found",
     });
+  }
+};
+
+export const getLawyerProfile = async (req, res) => {
+  const lawyerId = req.userId;
+
+  try {
+    // let user = null;
+    const user = await Lawyer.findById(lawyerId);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    }
+
+    const appointments = await Booking.find({ lawyer: lawyerId });
+
+    const { password, ...rest } = user._doc;
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully ",
+      data: { ...rest, appointments },
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong! cannot get!" });
   }
 };

@@ -1,4 +1,6 @@
 import User from "../models/UserSchema.js";
+import Booking from "../models/BookingSchema.js";
+import Lawyer from "../models/LawyerSchema.js";
 
 // update user
 export const updateUser = async (req, res) => {
@@ -75,6 +77,49 @@ export const getAllUser = async (req, res) => {
     res.status(404).json({
       success: false,
       message: "Not found",
+    });
+  }
+};
+
+export const getUserProfile = async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    }
+
+    const { password, ...rest } = user._doc;
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully ",
+      data: { ...rest },
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong! cannot get!" });
+  }
+};
+
+export const getMyAppointments = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ user: req.userId });
+    const lawyerIds = bookings.map((el) => el.lawyer.id);
+
+    const lawyers = await Lawyer.find({ _id: { $in: lawyerIds } }).select(
+      "-password"
+    );
+
+    res.status(200).json({ success: true, message: "Success", data: lawyers });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong! cannot get!",
     });
   }
 };
