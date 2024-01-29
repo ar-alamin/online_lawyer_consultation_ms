@@ -1,8 +1,9 @@
-// import { formatDate } from "../../utils/FormateDate";
+import React from "react";
+import { formateDate } from "../../utils/FormateDate";
 
-const Appoinments = ({ appointments }) => {
+const Appointments = ({ appointments }) => {
   return (
-    <table className="w-full text-sm text-left text-gray-500 ">
+    <table className="w-full text-left text-sm text-gray-500">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
         <tr>
           <th cope="col" className="px-6 py-3">
@@ -24,8 +25,8 @@ const Appoinments = ({ appointments }) => {
       </thead>
 
       <tbody>
-        {appointments.map((item) => (
-          <tr key={item._id} className="bg-white border-b  hover:bg-gray-50 ">
+        {appointments?.map((item) => (
+          <tr key={item._id}>
             <th
               scope="row"
               className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
@@ -43,7 +44,6 @@ const Appoinments = ({ appointments }) => {
               </div>
             </th>
             <td className="px-6 py-4">{item.user.gender}</td>
-
             <td className="px-6 py-4">
               {item.isPaid && (
                 <div className="flex items-center">
@@ -61,8 +61,7 @@ const Appoinments = ({ appointments }) => {
             </td>
 
             <td className="px-6 py-4">{item.ticketPrice}</td>
-
-            <td className="px-6 py-4">{formatDate(item.createdAt)}</td>
+            <td className="px-6 py-4">{formateDate(item.createdAt)}</td>
           </tr>
         ))}
       </tbody>
@@ -70,4 +69,4 @@ const Appoinments = ({ appointments }) => {
   );
 };
 
-export default Appoinments;
+export default Appointments;

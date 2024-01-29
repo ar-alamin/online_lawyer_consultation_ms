@@ -7,11 +7,14 @@ import { BASE_URL } from "../../config";
 import starIcon from "../../assets/images/Star.png";
 import LawyerAbout from "../../pages/Lawyers/LawyerAbout";
 import Profile from "./Profile";
+import Appointments from "./Appointments";
 
 const Dashboard = () => {
   const { data, loading, error } = useGetProfile(
     `${BASE_URL}/lawyers/profile/me`
   );
+
+  console.log(data);
 
   const [tab, setTab] = useState("overview");
 
@@ -91,7 +94,9 @@ const Dashboard = () => {
                   </div>
                 )}
 
-                {tab === "appointments" && <div>appointments</div>}
+                {tab === "appointments" && (
+                  <Appointments appointments={data.appointments} />
+                )}
 
                 {tab === "settings" && <Profile lawyerData={data} />}
               </div>

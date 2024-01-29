@@ -5,15 +5,8 @@ import { Link } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
 
 const LawyerCard = ({ lawyer }) => {
-  const {
-    name,
-    photo,
-    avgRating,
-    totalRating,
-    specialization,
-    totalClients,
-    court,
-  } = lawyer;
+  const { name, photo, avgRating, totalRating, specialization, experiences } =
+    lawyer;
 
   return (
     <div className="p-3 lg:p-5 ">
@@ -42,13 +35,17 @@ const LawyerCard = ({ lawyer }) => {
 
       <div className="mt-[18px] lg:mt-5 flex items-center justify-between">
         <div>
-          <p className="text-[14px] leading-[24px] font-[400] text-textColor">
+          {/* <p className="text-[14px] leading-[24px] font-[400] text-textColor">
             {totalClients}
+          </p> */}
+
+          <p className="text-[14px] leading-[24px] font-[400] text-textColor">
+            At {experiences && experiences[0]?.court}
           </p>
         </div>
 
         <Link
-          to="/lawyers"
+          to={`/lawyers/${lawyer._id}`}
           className=" w-[28px] h-[28px] rounded-full border border-solid border-[#181A1E] flex  items-center justify-center  group hover:bg-[#0067FF] hover:border-none"
         >
           <BsArrowRight className="group-hover:text-white w-6 h-4" />

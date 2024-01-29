@@ -99,7 +99,7 @@ const Header = () => {
                   </figure>
                 </Link>
 
-                <h2>{user?.name}</h2>
+                {/* <h2>{user?.name}</h2> */}
               </div>
             ) : (
               <Link to="/login">
