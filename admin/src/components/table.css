@@ -1,0 +1,47 @@
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+  .delbtn{
+    background-color: rgb(221, 59, 59);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .loading{
+    font-size: 50px;
+    font-weight: bolder;
+    text-align: center;
+  }
+  .approvebtn{
+    background-color: #04AA6D;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+  }
+.approved{
+  background-color: #d2d2d2;
+  color: rgb(43, 41, 41);
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 5px;
+}

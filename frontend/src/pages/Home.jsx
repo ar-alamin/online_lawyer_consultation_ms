@@ -1,41 +1,37 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import heroImg01 from "../assets/images/hero-img01.png";
 import heroImg02 from "../assets/images/hero-img02.png";
 import heroImg03 from "../assets/images/hero-img03.png";
 import icon01 from "../assets/images/icon01.png";
 import icon02 from "../assets/images/icon02.png";
 import icon03 from "../assets/images/icon03.png";
-import faqImg from "../assets/images/faq-img.png";
+import About from "../components/About/About.jsx";
+import faqImg from "../assets/images/hero-img01.png";
 import { BsArrowRight } from "react-icons/bs";
-import { Link } from "react-router-dom";
 
-import About from "../components/About/About";
 import ServicesList from "../components/Services/ServicesList";
-import LawyerList from "../components/Lawyers/LawyerList";
-import FaqList from "../components/Faq/FaqList";
+import LawyersList from "../components/Lawyers/LawyersList";
 import Testimonial from "../components/Testimonial/Testimonial";
+import FaqList from "../components/Faq/FaqList";
 
 const Home = () => {
   return (
     <>
-      {/* ======= hero section ======= */}
       <section className="hero__section pt-[60px] 2xl:h-[800px]">
         <div className="container">
           <div className="flex flex-col lg:flex-row gap-[90px] items-center justify-between">
             {/* ====== hero content ========== */}
             <div>
               <div className=" lg:w-[570px]">
-                <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[36px] md:leading-[46px]">
+                <h1 className="text-headingColor text-[36px] leading-[46px] md:text-[60px] md:leading-[70px] font-[800] ">
                   We can provide a client with legal advice their situatioin.
                 </h1>
-
                 <p className="text__para">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Corrupti excepturi aspernatur quaerat exercitationem aliquam
-                  in nulla voluptate earum rem, consectetur provident nam sequi
-                  nisi ea sit animi officia dicta vel.
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Natus quaerat cumque fugit, perspiciatis cum nemo aperiam, aut
+                  quia earum amet architecto, modi odio. Soluta unde ducimus
+                  perferendis?
                 </p>
-
                 <button className="btn">Request an Appointment </button>
               </div>
 
@@ -53,7 +49,7 @@ const Home = () => {
                     15+
                   </h2>
                   <span className="w-[100px] h-2 rounded-full bg-purpleColor block mt-[-14px]"></span>
-                  <p className="text__para">Lawyer</p>
+                  <p className="text__para">Service Location</p>
                 </div>
 
                 <div>
@@ -69,29 +65,30 @@ const Home = () => {
             {/* =========== hero img ============ */}
             <div className="flex gap-[30px] justify-end">
               <div>
-                <img className="w-full" src={heroImg01} alt="" />
+                <img className="w-full" src={heroImg01} alt="hero_img" />
               </div>
-
               <div className="mt-[30px]">
-                <img src={heroImg02} alt="" className="w-full mb-[30px]" />
-                <img src={heroImg03} alt="" className="w-full" />
+                <img
+                  className="w-full mb-[30px]"
+                  src={heroImg02}
+                  alt="hero_img"
+                />
+                <img className="w-full" src={heroImg03} alt="hero_img" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ====== container ====== */}
       <section>
         <div className="container ">
           <div className="lg:w-[470px] mx-auto">
             <h2 className="heading text-center">
-              Providing the best lawyer services
+              Providing the best Lawyer services
             </h2>
-
             <p className="text__para text-center">
-              World-class care for everyone. Our lawyer are more expert and best
-              consultation for client.
+              World-class law service for all kind of people for everyone.We
+              offers various kinds of law service.
             </p>
           </div>
 
@@ -102,19 +99,18 @@ const Home = () => {
               </div>
 
               <div className="mt-[30px]">
-                <h2 className="text-[20px] leading-9 text-headingColor font-[700] text-center">
+                <h2 className="text-[26px] leading-9 text-headingColor font-[700] text-center">
                   Find a Lawyer
                 </h2>
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Temporibus similique vitae officia vero.
+                  World-class law service for all kind of people for everyone.
                 </p>
 
                 <Link
                   to="/lawyers"
-                  className="w-[28px] h-[28px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-buttonBgColor hover:border-none"
+                  className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-buttonBgColor hover:border-none"
                 >
-                  <BsArrowRight className="group-hover:text-white w-6 h-4" />
+                  <BsArrowRight className="group-hover:text-white w-6 h-5" />
                 </Link>
               </div>
             </div>
@@ -125,19 +121,18 @@ const Home = () => {
               </div>
 
               <div className="mt-[30px]">
-                <h2 className="text-[20px] leading-9 text-headingColor font-[700] text-center">
+                <h2 className="text-[26px] leading-9 text-headingColor font-[700] text-center">
                   Find a Location
                 </h2>
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Temporibus similique vitae officia vero.
+                  World-class law service for all kind of people for everyone.
                 </p>
 
                 <Link
                   to="/lawyers"
-                  className="w-[28px] h-[28px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-buttonBgColor hover:border-none"
+                  className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-buttonBgColor hover:border-none"
                 >
-                  <BsArrowRight className="group-hover:text-white w-6 h-4" />
+                  <BsArrowRight className="group-hover:text-white w-6 h-5" />
                 </Link>
               </div>
             </div>
@@ -147,19 +142,18 @@ const Home = () => {
               </div>
 
               <div className="mt-[30px]">
-                <h2 className="text-[20px] leading-9 text-headingColor font-[700] text-center">
-                  Book Appoinment
+                <h2 className="text-[26px] leading-9 text-headingColor font-[700] text-center">
+                  Book Appointment
                 </h2>
                 <p className="text-[16px] leading-7 text-textColor font-[400] mt-4 text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Temporibus similique vitae officia vero.
+                  World-class law service for all kind of people for everyone.
                 </p>
 
                 <Link
                   to="/lawyers"
-                  className="w-[28px] h-[28px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-buttonBgColor hover:border-none"
+                  className="w-[44px] h-[44px] rounded-full border border-solid border-[#181A1E] mt-[30px] mx-auto flex items-center justify-center group hover:bg-buttonBgColor hover:border-none"
                 >
-                  <BsArrowRight className="group-hover:text-white w-6 h-4" />
+                  <BsArrowRight className="group-hover:text-white w-6 h-5" />
                 </Link>
               </div>
             </div>
@@ -167,17 +161,14 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ====== about section ====== */}
       <About />
 
-      {/* ======== service section ====== */}
       <section>
         <div className="container">
           <div className="xl:w-[470px] mx-auto">
-            <h2 className="heading text-center">Our lawyer services</h2>
+            <h2 className="heading text-center">Our Lawyer services</h2>
             <p className="text__para text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit blanditiis
-              exercitationem.
+              World-class law service for all kind of people for everyone.
             </p>
           </div>
 
@@ -185,22 +176,18 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ======= lawyers section ======= */}
       <section>
         <div className="container">
           <div className="xl:w-[470px] mx-auto">
-            <h2 className="heading text-center">Our great lawyers</h2>
+            <h2 className="heading text-center">Our great Lawyer</h2>
             <p className="text__para text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit blanditiis
-              exercitationem.
+              World-class law service for all kind of people for everyone.
             </p>
           </div>
-
-          <LawyerList />
+          <LawyersList />
         </div>
       </section>
 
-      {/* ====== FAQ section ======= */}
       <section>
         <div className="container">
           <div className="flex justify-between gap-[50px] lg:gap-0">
@@ -210,24 +197,22 @@ const Home = () => {
 
             <div className="w-full md:w-1/2">
               <h2 className="heading">Most questions by our beloved clients</h2>
-
               <FaqList />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ====== Testimonial section ======= */}
       <section>
         <div className="container">
           <div className="xl:w-[470px] mx-auto">
-            <h2 className="heading text-center">What our clients says</h2>
-            <p className="txt__para text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit blanditiis
-              exercitationem.
+            <h2 className="heading text-center">What our client say</h2>
+            <p className="text__para text-center">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Deleniti, ea ipsam! Eaque commodi unde vitae totam, ullam rerum
+              quia!
             </p>
           </div>
-
           <Testimonial />
         </div>
       </section>

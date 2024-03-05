@@ -1,21 +1,26 @@
-import express from "express";
 import {
-  updateUser,
+  adminAuth,
+  clientAuth,
+  authenticate,
+  restrict,
+} from "../auth/verifyToken.js";
+import {
   deleteUser,
   getAllUser,
-  getSingleUser,
   getUserProfile,
+  getSingleUser,
+  updateUser,
   getMyAppointments,
-} from "../Controllers/userController.js";
-
-import { authenticate, restrict } from "../auth/verifyToken.js";
+} from "../controllers/userController.js";
+import express from "express";
 
 const router = express.Router();
 
-router.get("/:id", authenticate, restrict(["client"]), getSingleUser);
-router.get("/", authenticate, restrict(["admin"]), getAllUser);
-router.put("/:id", authenticate, restrict(["client"]), updateUser);
-router.delete("/:id", authenticate, restrict(["client"]), deleteUser);
+// get all users
+router.get("/", getAllUser);
+router.get("/:id", authenticate, clientAuth, getSingleUser);
+router.put("/:id", authenticate, clientAuth, updateUser);
+router.delete("/:id", deleteUser);
 
 router.get("/profile/me", authenticate, restrict(["client"]), getUserProfile);
 router.get(

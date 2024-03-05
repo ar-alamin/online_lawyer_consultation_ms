@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
-import uploadImageToCloudinary from "./../../utils/uploadCloudinary";
-
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { BASE_URL, token } from "../../config";
+// import uploadImageToCloudinary from "../../utils/uploadCloudinary";
+import { AiOutlineDelete } from "react-icons/ai";
 
 import { toast } from "react-toastify";
 
 const Profile = ({ lawyerData }) => {
+  // const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,22 +42,48 @@ const Profile = ({ lawyerData }) => {
     });
   }, [lawyerData]);
 
-  const [selectedFile, setSelectedFile] = useState(null);
-
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFileInputChange = async (event) => {
-    const file = event.target.files[0];
-    const data = await uploadImageToCloudinary(file);
+  // const handleFileInputChange = async event => {
+  //   const file = event.target.files[0];
+  //   const data = await uploadImageToCloudinary(file);
 
-    setSelectedFile(data.url);
-    setFormData({ ...formData, photo: data?.url });
+  //   setSelectedFile(data.url);
+  //   setFormData({ ...formData, photo: data.url });
+  // };
+
+  // Function to handle file input change
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Read the selected file as a data URL
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagePreview(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const updateProfileHandler = async (e) => {
+  const updateLawyerHandler = async (e) => {
     e.preventDefault();
+    const finalFormData = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      gender: formData.gender,
+      phone: formData.phone,
+      photo: imagePreview,
+      bio: formData.bio,
+      about: formData.about,
+      ticketPrice: formData.ticketPrice,
+      qualifications: formData.qualifications,
+      experiences: formData.experiences,
+      specialization: formData.specialization,
+      timeSlots: formData.timeSlots,
+    };
 
     try {
       const res = await fetch(`${BASE_URL}/lawyers/${lawyerData._id}`, {
@@ -65,21 +93,21 @@ const Profile = ({ lawyerData }) => {
           Authorization: `Bearer ${token}`,
         },
 
-        body: JSON.stringify(formData),
+        body: JSON.stringify(finalFormData),
       });
 
       const result = await res.json();
       if (!res.ok) {
-        throw Error(result.message);
+        return toast.error(result.message);
       }
 
       toast.success("successfully update");
     } catch (err) {
-      toast.error(err.message);
+      console.log(err);
     }
   };
 
-  // reusable function for adding items
+  // Reusable function for adding items
   const addItem = (key, item) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -87,14 +115,12 @@ const Profile = ({ lawyerData }) => {
     }));
   };
 
-  // reusable function for handling changes
+  // Reusable function for handling changes
   const handleReuseableInputChangeFunc = (key, index, event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => {
       const updatedItems = [...prevFormData[key]];
-
       updatedItems[index][name] = value;
-
       return {
         ...prevFormData,
         [key]: updatedItems,
@@ -102,7 +128,7 @@ const Profile = ({ lawyerData }) => {
     });
   };
 
-  //Reusable function for deleting items
+  // Reusable function for deleting items
   const deleteItem = (key, index) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -129,7 +155,6 @@ const Profile = ({ lawyerData }) => {
     deleteItem("qualifications", index);
   };
 
-  // handle experience
   const addExperience = (e) => {
     e.preventDefault();
     addItem("experiences", {
@@ -149,7 +174,6 @@ const Profile = ({ lawyerData }) => {
     deleteItem("experiences", index);
   };
 
-  // handle Time Slots
   const addTimeSlot = (e) => {
     e.preventDefault();
     addItem("timeSlots", { day: "", startingTime: null, endingTime: null });
@@ -169,7 +193,6 @@ const Profile = ({ lawyerData }) => {
       <h2 className="text-headingColor font-bold text-[24px] leading-9 mb-10">
         Profile Information
       </h2>
-
       <form>
         <div className="mb-5">
           <p className="form__label">Name*</p>
@@ -182,7 +205,6 @@ const Profile = ({ lawyerData }) => {
             className="form__input"
           />
         </div>
-
         <div className="mb-5">
           <p className="form__label">Email*</p>
           <input
@@ -237,9 +259,8 @@ const Profile = ({ lawyerData }) => {
                 <option value="other">Other</option>
               </select>
             </div>
-
             <div>
-              <p className="form__label">Category*</p>
+              <p className="form__label">Specialization*</p>
               <select
                 name="specialization"
                 value={formData.specialization}
@@ -247,9 +268,14 @@ const Profile = ({ lawyerData }) => {
                 className="form__input py-3.5"
               >
                 <option value="">Select</option>
-                <option value="criminal">Criminal</option>
-                <option value="business">Business</option>
-                <option value="family">Family</option>
+                <option value="Business Lawyer">Business Lawyer</option>
+                <option value="Tax Lawyer">Tax Lawyer</option>
+                <option value="Immigration Lawyer">Immigration Lawyer</option>
+                <option value="Family Lawyer">Family Lawyer</option>
+                <option value="Labor Lawyer">Labor Lawyer</option>
+                <option value="Estate Planning Lawyer">
+                  Estate Planning Lawyer
+                </option>
               </select>
             </div>
 
@@ -269,7 +295,6 @@ const Profile = ({ lawyerData }) => {
 
         <div className="mb-5">
           <p className="form__label">Qualifications*</p>
-
           {formData.qualifications?.map((item, index) => (
             <div key={index}>
               <div>
@@ -296,7 +321,6 @@ const Profile = ({ lawyerData }) => {
                     />
                   </div>
                 </div>
-
                 <div className="grid grid-cols-2 gap-5 mt-5">
                   <div>
                     <p className="form__label">Degree*</p>
@@ -335,7 +359,7 @@ const Profile = ({ lawyerData }) => {
 
           <button
             onClick={addQualification}
-            className="bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer"
+            className="bg-[#000] py-2 px-5 rounded text-white"
           >
             Add Qualification
           </button>
@@ -389,7 +413,7 @@ const Profile = ({ lawyerData }) => {
                       name="court"
                       value={item.court}
                       className="form__input"
-                      placeholder="Court Name"
+                      placeholder="Institution"
                       onChange={(e) => handleExperienceChange(e, index)}
                     />
                   </div>
@@ -496,12 +520,11 @@ const Profile = ({ lawyerData }) => {
             <figure className="w-[60px] h-[60px] rounded-full border-2 border-solid border-[#0067FF] flex items-center justify-center">
               <img
                 src={formData.photo}
-                alt=""
+                alt="Preview"
                 className="w-full rounded-full"
               />
             </figure>
           )}
-
           <div className="relative inline-block w-[130px] h-[50px]">
             <input
               className="custom-file-input absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
@@ -517,7 +540,7 @@ const Profile = ({ lawyerData }) => {
               className="custom-file-label absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer"
               htmlFor="customFile"
             >
-              {selectedFile ? selectedFile.name : "Upload Photo"}
+              {imagePreview ? imagePreview : "Upload Photo"}
             </label>
           </div>
         </div>
@@ -525,7 +548,7 @@ const Profile = ({ lawyerData }) => {
         <div className="mt-7">
           <button
             type="submit"
-            onClick={updateProfileHandler}
+            onClick={updateLawyerHandler}
             className="w-full bg-[#0067FF] text-white py-3 px-4 rounded-lg text-[18px] leading-[30px]"
           >
             Update Profile

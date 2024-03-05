@@ -1,32 +1,34 @@
-import User from "../models/UserSchema.js";
 import Booking from "../models/BookingSchema.js";
-import Lawyer from "../models/LawyerSchema.js";
+import Lawyer from "../models/LawyerSchema.js"; // Changed Lawyer to Lawyer
+import User from "../models/UserSchema.js";
 
-// update user
+// update User
 export const updateUser = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const updateUser = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       id,
-      { $set: req.body },
+      {
+        $set: req.body,
+      },
       { new: true }
     );
 
     res.status(200).json({
       success: true,
       message: "Successfully updated",
-      data: updateUser,
+      data: updatedUser,
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Failed to updated",
+      message: "failed to update",
     });
   }
 };
 
-//delete User
+// delete User
 export const deleteUser = async (req, res) => {
   const id = req.params.id;
 
@@ -40,33 +42,35 @@ export const deleteUser = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Failed to delete",
+      message: "failed to delete",
     });
   }
 };
 
+// getSingle User
 export const getSingleUser = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const user = await User.findById(id).select("-password");
+    const user = await User.findById(id);
 
     res.status(200).json({
       success: true,
-      message: "User found",
+      message: "Successful",
       data: user,
     });
   } catch (err) {
     res.status(404).json({
       success: false,
-      message: "No user found",
+      message: "Not found",
     });
   }
 };
 
+// getAll User
 export const getAllUser = async (req, res) => {
   try {
-    const users = await User.find({}).select("-password");
+    const users = await User.find({});
 
     res.status(200).json({
       success: true,
@@ -108,13 +112,14 @@ export const getUserProfile = async (req, res) => {
 export const getMyAppointments = async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.userId });
-    const lawyerIds = bookings.map((el) => el.lawyer.id);
+    const lawyerIds = bookings.map((el) => el?.lawyer?.id); // Changed lawyer to lawyer
 
     const lawyers = await Lawyer.find({ _id: { $in: lawyerIds } }).select(
+      // Changed Lawyer to Lawyer
       "-password"
     );
 
-    res.status(200).json({ success: true, message: "Success", data: lawyers });
+    res.status(200).json({ success: true, message: "Success", data: lawyers }); // Changed Lawyer to Lawyer
   } catch (error) {
     console.log(error);
     res.status(500).json({

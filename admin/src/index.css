@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  li {
+    @apply flex items-center p-[5px] cursor-pointer hover:bg-bgColor;
+  }
+
+  span {
+    @apply text-[13px] font-semibold text-[#888] ml-[10px];
+  }
+
+  label {
+    @apply flex items-center gap-[10px];
+  }
+}
+
+@layer components {
+  .menuContainer {
+    @apply w-[220px] py-[5px] pl-5 border-r border-borderColor bg-white;
+  }
+
+  .contentContainer {
+    @apply py-[5px] px-5 w-full;
+  }
+
+  .item {
+    @apply flex items-center mr-5 relative;
+  }
+
+  .counter {
+    @apply w-[15px] h-[15px] bg-red-600 rounded-[50%] text-white flex items-center justify-center text-[10px] font-bold absolute top-[-5px] right-[-5px];
+  }
+
+  .title {
+    @apply text-[10px] font-bold text-titleColor mt-[15px] mb-[5px];
+  }
+
+  .icon {
+    @apply text-[18px] text-iconColor;
+  }
+
+  .box {
+    @apply p-5 rounded-[10px] shadow-boxShadow;
+  }
+
+  .percentage {
+    @apply flex items-center text-[14px];
+  }
+
+  .icons {
+    @apply text-[18px] p-[5px] rounded-[5px] self-end;
+  }
+
+  .itemResults {
+    @apply flex items-center mt-[10px] text-[14px];
+  }
+
+  .cellWithStatus {
+    @apply p-[5px] rounded-[5px];
+  }
+  .cellWithStatus.active {
+    @apply bg-[rgba(0,128,0,0.05)] text-[green];
+  }
+  .cellWithStatus.pending {
+    @apply bg-[rgba(255,217,0,0.05)] text-[goldenrod];
+  }
+  .cellWithStatus.passive {
+    @apply bg-[rgba(255,0,0,0.05)] text-[crimson];
+  }
+
+  .cellWithCatagory {
+    @apply p-[5px] rounded-[5px];
+  }
+  .cellWithCatagory.active {
+    @apply bg-[rgba(0,128,0,0.05)] text-[green];
+  }
+  .cellWithCatagory.pending {
+    @apply bg-[rgba(255,217,0,0.05)] text-[goldenrod];
+  }
+  .cellWithCatagory.passive {
+    @apply bg-[rgba(255,0,0,0.05)] text-[crimson];
+  }
+}

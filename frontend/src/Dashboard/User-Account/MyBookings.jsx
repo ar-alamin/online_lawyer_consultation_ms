@@ -1,34 +1,41 @@
-import useFetchData from "../../hooks/useFetchDats";
-import { BASE_URL } from "../../config";
-import LawyerCard from "./../../components/Lawyers/LawyerCard";
-import Error from "../../components/Error/Error";
-import Loading from "../../components/Loader/Loading";
+import { BASE_URL } from "./../../config";
+import useFetchData from "./../../hooks/useFetchData";
+import useGetProfile from "../../hooks/useFetchData";
+import HashLoader from "react-spinners/HashLoader";
+import Booking from "./Booking";
 
 const MyBookings = () => {
   const {
-    data: appointments,
+    data: myAppointments,
     loading,
     error,
   } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
 
+  const {
+    data: userData,
+  } = useGetProfile(`${BASE_URL}/users/profile/me`);
+
+
   return (
     <div>
-      {loading && !error && <Loading />}
-
-      {error && !loading && <Error drrMessage={error} />}
-
-      {!loading && !error && (
-        <div className="grid grid-cols-1  lg:grid-cols-2 gap-5">
-          {appointments?.map((lawyer) => (
-            <LawyerCard lawyer={lawyer} key={lawyer.id} />
-          ))}
+      {loading && (
+        <div className="flex items-center justify-center w-full h-full">
+          <HashLoader color="#0067FF" />
         </div>
       )}
 
-      {!loading && !error && appointments.length === 0 && (
-        <h2 className="mt-5 text-center leading-7 text-[20px] font-semibold text-[#0067FF]">
-          Your did not book any lawyer yet!
-        </h2>
+      {error && (
+        <div className="flex items-center justify-center w-full h-full">
+          <h3 className="text-headingColor text-[20px] font-semibold leading-[30px]">
+            {error}
+          </h3>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-5">
+            <Booking myAppointments={myAppointments} userName={userData.name}/>
+        </div>
       )}
     </div>
   );

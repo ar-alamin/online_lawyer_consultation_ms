@@ -1,42 +1,39 @@
-import { formateDate } from "../../utils/FormateDate";
+import { formatDate } from "../../utils/formatDate";
 
-const LawyerAbout = ({ name, about, qualifications, experiences }) => {
+/* eslint-disable react/prop-types */
+const LawyerAbout = ({ about, name, qualifications, experiences }) => {
   return (
     <div>
       <div>
-        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex items-center gap-2">
+        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex gap-2 items-center">
           About of
           <span className="text-irisBlueColor font-bold text-[24px] leading-9">
             {name}
           </span>
         </h3>
-
         <p className="text__para">{about}</p>
       </div>
 
       <div className="mt-12">
-        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold">
+        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex gap-2 items-center">
           Education
         </h3>
-
         <ul className="pt-4 md:p-5">
           {qualifications?.map((item, index) => (
             <li
               key={index}
-              className="flex flex-col sm:flex-row sm:justify-between sm:items-end md:gap-5
-           mb-[30px]"
+              className="flex sm:justify-between sm:items-end flex-col sm:flex-row  md:gap-5 mb-[30px]"
             >
               <div>
                 <span className="text-irisBlueColor text-[15px] leading-6 font-semibold">
-                  {formateDate(item.startingDate)}-
-                  {formateDate(item.endingDate)}
+                  {formatDate(item.startingDate, { year: "numeric" })}-
+                  {formatDate(item.endingDate, { year: "numeric" })}
                 </span>
-
                 <p className="text-[16px] leading-6 font-medium text-textColor">
                   {item.degree}
                 </p>
               </div>
-              <p className="text-[14px] leading-5 font-medium text-textColor">
+              <p className="text-[14px] leading-6 font-medium text-textColor">
                 {item.university}
               </p>
             </li>
@@ -45,24 +42,24 @@ const LawyerAbout = ({ name, about, qualifications, experiences }) => {
       </div>
 
       <div className="mt-12">
-        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold">
+        <h3 className="text-[20px] leading-[30px] text-headingColor font-semibold flex gap-2 items-center">
           Experience
         </h3>
-
-        <ul className="grid sm:grid-cols-2 gap-[30px] pt-4 md:p-5">
+        <ul className="pt-4 md:p-5 grid sm:grid-cols-2  gap-[30px]">
           {experiences?.map((item, index) => (
-            <li key={index} className="p-4 rounded bg-[#fff9ea]">
-              <span className="text-yellowColor text-[15px] leading-6 font-semibold">
-                {formateDate(item.startingDate)}-{formateDate(item.endingDate)}
-              </span>
-
-              <p className="text-[16px] leading-6 font-medium text-textColor">
-                {item.position}
-              </p>
-
-              <p className="text-[14px] leading-5 font-medium text-textColor">
-                {item.court}
-              </p>
+            <li key={index}>
+              <div className="p-4 rounded bg-[#fff9ea]">
+                <span className="text-yellowColor text-[15px] leading-6 font-semibold ">
+                  {formatDate(item.startingDate, { year: "numeric" })}-
+                  {formatDate(item.endingDate, { year: "numeric" })}
+                </span>
+                <p className="text-[16px] leading-6 font-medium text-headingColor mt-3">
+                  {item.position}
+                </p>
+                <p className="text-[14px] leading-6 font-medium text-textColor">
+                  {item.hospital}
+                </p>
+              </div>
             </li>
           ))}
         </ul>

@@ -1,36 +1,46 @@
 import { useState } from "react";
-import Tabs from "./Tabs";
-import Loader from "../../components/Loader/Loading";
-import Error from "../../components/Error/Error";
-import useGetProfile from "../../hooks/useFetchDats";
-import { BASE_URL } from "../../config";
+
 import starIcon from "../../assets/images/Star.png";
 import LawyerAbout from "../../pages/Lawyers/LawyerAbout";
+import useGetProfile from "../../hooks/useFetchData";
+import { BASE_URL } from "../../config";
 import Profile from "./Profile";
+import Tabs from "./Tabs";
+import HashLoader from "react-spinners/HashLoader";
 import Appointments from "./Appointments";
 
 const Dashboard = () => {
-  const { data, loading, error } = useGetProfile(
-    `${BASE_URL}/lawyers/profile/me`
-  );
-
-  console.log(data);
-
   const [tab, setTab] = useState("overview");
+  const {
+    data: lawyerData,
+    loading,
+    error,
+  } = useGetProfile(`${BASE_URL}/lawyers/profile/me`);
 
   return (
     <section>
       <div className="max-w-[1170px] px-5 mx-auto">
-        {loading && !error && <Loader />}
-        {error && !loading && <Error />}
+        {loading && (
+          <div className="flex items-center justify-center w-full h-full">
+            <HashLoader color="#0067FF" />
+          </div>
+        )}
+        {error && (
+          <div>
+            <h3>{error.message}</h3>
+          </div>
+        )}
 
         {!loading && !error && (
           <div className="grid lg:grid-cols-3 gap-[30px] lg:gap-[50px] ">
             <Tabs tab={tab} setTab={setTab} />
-
             <div className="lg:col-span-2">
-              {data.isApproved === "pending" && (
-                <div className="flex p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 ">
+              {lawyerData.isApproved === "pending" && (
+                <div
+                  id="alert-4"
+                  className="flex p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 "
+                  role="alert"
+                >
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-5 h-5"
@@ -44,61 +54,56 @@ const Dashboard = () => {
                       clipRule="evenodd"
                     ></path>
                   </svg>
-
                   <span className="sr-only">Info</span>
                   <div className="ml-3 text-sm font-medium">
                     To get approval please complete your profile. We&apos;ll
-                    review and approve within 3 days.
+                    review manually and approve within 3days.
                   </div>
                 </div>
               )}
-
               <div className="mt-8">
                 {tab === "overview" && (
                   <div>
                     <div className="flex gap-5 items-center mb-10">
                       <figure className="max-w-[200px] max-h-[200px]">
-                        <img src={data?.photo} alt="" className="w-full" />
+                        <img src={lawyerData.photo} alt="" className="w-full" />
                       </figure>
-
                       <div>
                         <span className="bg-[#CCF0F3] text-irisBlueColor py-1 px-4 lg:py-2 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-[600]">
-                          {data.specialization}
+                          {lawyerData.specialization}
                         </span>
-
                         <h3 className="text-headingColor text-[22px] leading-[36px] mt-3 font-bold">
-                          {data.name}
+                          {lawyerData.name}
                         </h3>
-
                         <div className="flex items-center gap-[6px]">
                           <span className="flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-[600] text-headingColor">
-                            <img src={starIcon} alt="" /> {data.averageRating}
+                            <img src={starIcon} alt="" />{" "}
+                            {lawyerData.averageRating}
                           </span>
-
                           <span className="text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
-                            ({data.totalRating})
+                            ({lawyerData.totalRating})
                           </span>
                         </div>
-
                         <p className="text__para text-[15px] leading-6 lg:max-w-[390px]">
-                          {data?.bio}
+                          {lawyerData.bio}
                         </p>
                       </div>
                     </div>
                     <LawyerAbout
-                      name={data.name}
-                      about={data.about}
-                      qualifications={data.qualifications}
-                      experiences={data.experiences}
+                      name={lawyerData.name}
+                      about={lawyerData.about}
+                      qualifications={lawyerData.qualifications}
+                      experiences={lawyerData.experiences}
                     />
                   </div>
                 )}
-
+                {tab === "settings" && <Profile lawyerData={lawyerData} />}
                 {tab === "appointments" && (
-                  <Appointments appointments={data.appointments} />
+                  <Appointments
+                    appointments={lawyerData.appointments}
+                    dName={lawyerData.name}
+                  />
                 )}
-
-                {tab === "settings" && <Profile lawyerData={data} />}
               </div>
             </div>
           </div>

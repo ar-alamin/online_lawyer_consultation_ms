@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
-import { useParams } from "react-router-dom";
 import { BASE_URL, token } from "../../config";
-import HashLoader from "react-spinners/HashLoader";
 import { toast } from "react-toastify";
+import HashLoader from "react-spinners/HashLoader";
+import { useParams } from "react-router-dom";
 
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [hover, setHover] = useState(0);
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
-  const { id } = useParams();
-
-  const handleSubmitReview = async (e) => {
+  const handleReviewSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
 
     try {
@@ -33,48 +33,45 @@ const FeedbackForm = () => {
       });
 
       const result = await res.json();
-
       if (!res.ok) {
         throw new Error(result.message);
       }
 
       setLoading(false);
       toast.success(result.message);
-    } catch (err) {
+    } catch (error) {
+      toast.error(error.message);
       setLoading(false);
-      toast.error(err.message);
     }
   };
 
   return (
     <form action="">
       <div>
-        <h3 className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
-          How would you rate the overall experience?
-        </h3>
-
+        <p className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
+          How would you rate the overall experience?*
+        </p>
         <div>
-          {[...Array(5).keys()].map((_, index) => {
+          {[...Array(5)].map((star, index) => {
             index += 1;
-
             return (
               <button
+                type="button"
                 key={index}
                 className={`${
                   index <= ((rating && hover) || hover)
                     ? "text-yellowColor"
                     : "text-gray-400"
-                } bg-transparent border-none outline-none text-[22px] cursor-pointer`}
-                type="button"
+                } bg-transparent border-none outline-none cursor-pointer text-[22px]`}
                 onClick={() => setRating(index)}
                 onMouseEnter={() => setHover(index)}
                 onMouseLeave={() => setHover(rating)}
                 onDoubleClick={() => {
-                  setHover(0);
                   setRating(0);
+                  setHover(0);
                 }}
               >
-                <span>
+                <span className="star">
                   <AiFillStar />
                 </span>
               </button>
@@ -84,19 +81,20 @@ const FeedbackForm = () => {
       </div>
 
       <div className="mt-[30px]">
-        <h3 className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
+        <p className="text-headingColor text-[16px] leading-6 font-semibold mb-4 mt-0">
           Share your feedback or suggestions*
-        </h3>
-
+        </p>
         <textarea
-          className="border border-solid border-[#0066ff34] focus:outline outline-primaryColor w-full px-4 py-3 rounded-md"
+          className="border border-solid border-[#0066ff34] focus:outline outline-[#0067FF] w-full px-4 py-3 rounded-md"
+          name=""
+          id=""
           rows="5"
-          placeholder="Write your message"
           onChange={(e) => setReviewText(e.target.value)}
+          placeholder="Write your message "
+          required
         ></textarea>
       </div>
-
-      <button type="submit" className="btn" onClick={handleSubmitReview}>
+      <button type="submit" onClick={handleReviewSubmit} className="btn">
         {loading ? <HashLoader size={25} color="#fff" /> : "Submit Feedback"}
       </button>
     </form>

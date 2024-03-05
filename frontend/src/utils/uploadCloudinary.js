@@ -1,12 +1,11 @@
 const uploadImageToCloudinary = async (file) => {
   const uploadData = new FormData();
-
   uploadData.append("file", file);
-  uploadData.append("upload_preset", "olcms-app");
-  uploadData.append("cloud_name", "dkiua9ivs");
+  uploadData.append("upload_preset", "lawyer-app");
+  uploadData.append("cloud_name", "dr6kdnioz");
 
   const res = await fetch(
-    "https://api.cloudinary.com/v1_1/dkiua9ivs/image/upload",
+    "https://api.cloudinary.com/v1_1/dr6kdnioz/image/upload",
     {
       method: "post",
       body: uploadData,

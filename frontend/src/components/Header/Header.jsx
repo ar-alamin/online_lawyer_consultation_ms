@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useContext } from "react";
+// import logo from "../../assets/images/logo.png";
 import { NavLink, Link } from "react-router-dom";
-import userImg from "../../assets/images/avatar-icon.png";
 import { BiMenu } from "react-icons/bi";
-import { authContext } from "../../context/AuthContext";
+import { useContext, useEffect, useRef } from "react";
+
+import { AuthContext } from "./../../context/AuthContext";
 
 const navLinks = [
   {
@@ -10,12 +11,12 @@ const navLinks = [
     display: "Home",
   },
   {
-    path: "/lawyers",
-    display: "Find a Lawyer",
-  },
-  {
     path: "/services",
     display: "Services",
+  },
+  {
+    path: "/lawyers",
+    display: "Find a Lawyer",
   },
   {
     path: "/contact",
@@ -24,10 +25,11 @@ const navLinks = [
 ];
 
 const Header = () => {
+  const { user, token, role } = useContext(AuthContext);
+
   const headerRef = useRef(null);
   const menuRef = useRef(null);
-  const { user, role, token } = useContext(authContext);
-
+  console.log("user", user);
   const stickyHeaderFunc = () => {
     window.addEventListener("scroll", () => {
       if (
@@ -50,16 +52,15 @@ const Header = () => {
   const toggleMenu = () => menuRef.current.classList.toggle("show__menu");
 
   return (
-    <header className="header flex items-center" ref={headerRef}>
+    <header ref={headerRef} className="header flex items-center">
       <div className="container">
         <div className="flex items-center justify-between">
+          {/* =========== logo ========== */}
           <div>
-            <span className="text-[28px] text-headingColor font-bold">
-              OLMS
-            </span>
+            <h1 style={{fontSize:'30px',fontWeight:'bolder'}}>OLCMS</h1>
           </div>
 
-          {/* ====== menu ====== */}
+          {/* ========== nav menu =========== */}
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
             <ul className="menu flex items-center gap-[2.7rem]">
               {navLinks.map((link, index) => (
@@ -79,7 +80,7 @@ const Header = () => {
             </ul>
           </div>
 
-          {/* ======== nav right ======= */}
+          {/* ========= nav right ========== */}
           <div className="flex items-center gap-4">
             {token && user ? (
               <div>
@@ -92,14 +93,12 @@ const Header = () => {
                 >
                   <figure className="w-[35px] h-[35px] rounded-full cursor-pointer ">
                     <img
+                      className="w-full rounded-full"
                       src={user?.photo}
                       alt="USER"
-                      className="w-full rounded-full"
                     />
                   </figure>
                 </Link>
-
-                {/* <h2>{user?.name}</h2> */}
               </div>
             ) : (
               <Link to="/login">

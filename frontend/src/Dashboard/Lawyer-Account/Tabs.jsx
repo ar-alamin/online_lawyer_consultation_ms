@@ -1,10 +1,13 @@
-import { BiMenu } from "react-icons/bi";
-import { useContext, useState } from "react";
-import { authContext } from "../../context/AuthContext";
+import { useContext, useRef } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { BiMenu } from "react-icons/bi";
 
+// eslint-disable-next-line react/prop-types
 const Tabs = ({ tab, setTab }) => {
-  const { dispatch } = useContext(authContext);
+  const { dispatch } = useContext(AuthContext);
+  const tabsRef = useRef(null);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -12,13 +15,18 @@ const Tabs = ({ tab, setTab }) => {
     navigate("/login");
   };
 
+  const toggleTabs = () => tabsRef.current.classList.toggle("hidden");
+
   return (
     <div>
-      <span className="lg:hidden">
+      <span className="lg:hidden" onClick={toggleTabs}>
         <BiMenu className="w-6 h-6 cursor-pointer" />
       </span>
+      <div
+        ref={tabsRef}
+        className="hidden lg:flex items-center shadow-panelShadow  h-max p-[30px] bg-white  flex-col rounded-md"
+      >
 
-      <div className="hidden lg:flex items-center shadow-panelShadow  h-max p-[30px] bg-white  flex-col rounded-md">
         <button
           onClick={() => setTab("overview")}
           className={` ${
@@ -29,7 +37,6 @@ const Tabs = ({ tab, setTab }) => {
         >
           Overview
         </button>
-
         <button
           onClick={() => setTab("appointments")}
           className={` ${

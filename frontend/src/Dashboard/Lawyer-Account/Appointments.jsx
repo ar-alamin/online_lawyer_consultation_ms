@@ -1,12 +1,13 @@
-import React from "react";
-import { formateDate } from "../../utils/FormateDate";
+/* eslint-disable react/prop-types */
+import { Link } from "react-router-dom";
+import { formatDate } from "../../utils/formatDate";
 
-const Appointments = ({ appointments }) => {
+const Appointments = ({ appointments ,dName}) => {
   return (
-    <table className="w-full text-left text-sm text-gray-500">
+    <table className="w-full text-sm text-left text-gray-500 ">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
         <tr>
-          <th cope="col" className="px-6 py-3">
+          <th scope="col" className="px-6 py-3">
             Name
           </th>
           <th scope="col" className="px-6 py-3">
@@ -21,12 +22,14 @@ const Appointments = ({ appointments }) => {
           <th scope="col" className="px-6 py-3">
             Booked on
           </th>
+          <th scope="col" className="px-6 py-3">
+            Acton
+          </th>
         </tr>
       </thead>
-
       <tbody>
-        {appointments?.map((item) => (
-          <tr key={item._id}>
+        {appointments.map(item => (
+          <tr key={item._id} className="bg-white border-b  hover:bg-gray-50 ">
             <th
               scope="row"
               className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
@@ -59,9 +62,13 @@ const Appointments = ({ appointments }) => {
                 </div>
               )}
             </td>
-
             <td className="px-6 py-4">{item.ticketPrice}</td>
-            <td className="px-6 py-4">{formateDate(item.createdAt)}</td>
+            <td className="px-6 py-4">{formatDate(item.createdAt)}</td>
+            <td className="px-6 py-4">
+              <Link to={`/chat/${dName}/${item.user.name}`}>
+                <button type="button" class="btn btn-primary">Chat</button>
+              </Link>
+            </td>
           </tr>
         ))}
       </tbody>

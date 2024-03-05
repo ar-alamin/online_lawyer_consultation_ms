@@ -1,27 +1,32 @@
 export const faqs = [
   {
-    question: "What is your medical care?",
+    question: "What types of legal services do you provide?",
     content:
-      "One Medical was founded on a better model of care one designed around patients needs that provides a higher level of quality and service affordably. We do this through innovative design, excellent customer service, and the efficient use of technology.",
+      "We offer a wide range of legal services, including but not limited to business law, tax law, immigration law, family law, labor law, and estate planning. Our team of experienced lawyers is here to help you with your legal needs.",
   },
   {
-    question: "What happens if I need to go a hospital?",
+    question: "How can I consult with one of your lawyers?",
     content:
-      "One Medical was founded on a better model of care one designed around patients needs that provides a higher level of quality and service affordably. We do this through innovative design, excellent customer service, and the efficient use of technology.",
+      "You can schedule a consultation with one of our lawyers by contacting our office. We offer both in-person and virtual consultations to accommodate your needs.",
   },
   {
-    question: "What happens if I need to go a hospital?",
+    question: "Do you handle immigration cases?",
     content:
-      "One Medical was founded on a better model of care one designed around patients needs that provides a higher level of quality and service affordably. We do this through innovative design, excellent customer service, and the efficient use of technology.",
+      "Yes, we specialize in immigration law. Our immigration lawyers can assist you with matters related to living and working in Bangladesh legally, including political refugees and asylum seekers.",
   },
   {
-    question: "Can I visit your medical office?",
+    question: "What can a family lawyer assist me with?",
     content:
-      "One Medical was founded on a better model of care one designed around patients needs that provides a higher level of quality and service affordably. We do this through innovative design, excellent customer service, and the efficient use of technology.",
+      "Our family lawyers are experienced in all areas of domestic relations and family-related issues. Whether you need assistance with divorce, child custody, or other family matters, we can provide expert legal advice and support.",
   },
   {
-    question: "Does you provide urgent care?",
+    question: "What is the role of a business lawyer?",
     content:
-      "One Medical was founded on a better model of care one designed around patients needs that provides a higher level of quality and service affordably. We do this through innovative design, excellent customer service, and the efficient use of technology.",
+      "A business lawyer is essential for handling a variety of legal matters related to business operations. They can help with issues such as liability, intellectual property disputes, mergers, and legal documentation revisions.",
+  },
+  {
+    question: "How can a tax lawyer help me or my business?",
+    content:
+      "Tax lawyers can provide guidance on complex tax rules and regulations, ensuring that individuals and businesses stay compliant with local and federal tax laws. They help with tax planning, audits, and other tax-related matters.",
   },
 ];

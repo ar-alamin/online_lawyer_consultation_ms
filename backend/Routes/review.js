@@ -1,12 +1,13 @@
+import { authenticate, clientAuth } from "../auth/verifyToken.js";
+import { createReview, getAllReview } from "../controllers/reviewController.js";
 import express from "express";
-import { getAllReview, createReview } from "../Controllers/reviewController.js";
-import { authenticate, restrict } from "../auth/verifyToken.js";
 
 const router = express.Router({ mergeParams: true });
 
+// get all users
 router
   .route("/")
   .get(getAllReview)
-  .post(authenticate, restrict(["client"]), createReview);
+  .post(authenticate, clientAuth, createReview);
 
 export default router;

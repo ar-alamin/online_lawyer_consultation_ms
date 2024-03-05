@@ -11,7 +11,7 @@ const LawyerSchema = new mongoose.Schema({
     type: String,
   },
 
-  // Fields for doctors only
+  // Fields for lawyers only
   specialization: { type: String },
   qualifications: {
     type: Array,
@@ -38,7 +38,6 @@ const LawyerSchema = new mongoose.Schema({
     enum: ["pending", "approved", "cancelled"],
     default: "pending",
   },
-  appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
 });
 
 export default mongoose.model("Lawyer", LawyerSchema);

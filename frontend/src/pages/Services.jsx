@@ -1,6 +1,5 @@
-import React from "react";
 import { services } from "../assets/data/services";
-import ServiceCard from "../components/Services/ServicesCard";
+import ServiceCard from "../components/Services/ServiceCard";
 
 const Services = () => {
   return (

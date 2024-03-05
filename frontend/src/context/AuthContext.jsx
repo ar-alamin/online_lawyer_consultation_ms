@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+/* eslint-disable react/prop-types */
+import { createContext, useEffect, useReducer } from "react";
 
-const initialState = {
+const initial_state = {
   user:
     localStorage.getItem("user") !== undefined
       ? JSON.parse(localStorage.getItem("user"))
@@ -9,9 +10,9 @@ const initialState = {
   role: localStorage.getItem("role") || "",
 };
 
-export const authContext = createContext(initialState);
+export const AuthContext = createContext(initial_state);
 
-const authReducer = (state, action) => {
+const AuthReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_START":
       return {
@@ -45,7 +46,7 @@ const authReducer = (state, action) => {
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(AuthReducer, initial_state);
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.user));
@@ -54,7 +55,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [state]);
 
   return (
-    <authContext.Provider
+    <AuthContext.Provider
       value={{
         user: state.user,
         token: state.token,
@@ -63,6 +64,6 @@ export const AuthContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 };

@@ -1,17 +1,14 @@
 import jwt from "jsonwebtoken";
-import Lawyer from "../models/LawyerSchema.js";
-import User from "../models/UserSchema.js";
+import LawyerSchema from "../models/LawyerSchema.js";
+import UserSchema from "../models/UserSchema.js";
 
 export const authenticate = async (req, res, next) => {
-  //get token from headers
-
+  // Get token from header
   const authToken = req.headers.authorization;
 
-  // check token is exists
+  // Check if token exists
   if (!authToken || !authToken.startsWith("Bearer ")) {
-    return res
-      .status(401)
-      .json({ success: false, message: "No token, authorization denied" });
+    return res.status(401).json({ message: "No token, authorization denied" });
   }
 
   try {
@@ -21,9 +18,8 @@ export const authenticate = async (req, res, next) => {
 
     req.userId = decoded.id;
     req.role = decoded.role;
-
     next();
-  } catch (error) {
+  } catch (err) {
     if (err.name === "TokenExpiredError") {
       return res
         .status(401)
@@ -38,15 +34,16 @@ export const restrict = (roles) => async (req, res, next) => {
   const userId = req.userId;
 
   let user;
-
-  const client = await User.findById(userId);
-  const lawyer = await Lawyer.findById(userId);
+  // Check the user's role and retrieve from the appropriate collection
+  const client = await UserSchema.findById(userId);
+  const lawyer = await LawyerSchema.findById(userId);
 
   if (client) {
     user = client;
-  }
-  if (lawyer) {
+  } else if (lawyer) {
     user = lawyer;
+  } else {
+    return res.status(404).json({ message: "User not found" });
   }
 
   if (!roles.includes(user.role)) {
@@ -57,3 +54,12 @@ export const restrict = (roles) => async (req, res, next) => {
 
   next();
 };
+
+// Middleware to authenticate admin access
+export const adminAuth = restrict(["admin"]);
+
+// Middleware to restrict lawyer access
+export const lawyerAuth = restrict(["lawyer"]);
+
+// Middleware to restrict client access
+export const clientAuth = restrict(["client", "admin"]);

@@ -1,22 +1,22 @@
 import User from "../models/UserSchema.js";
-import Lawyer from "../models/LawyerSchema.js";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import Lawyer from "../models/LawyerSchema.js";
 
+// generate token
 const generateToken = (user) => {
   return jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET_KEY,
-    {
-      expiresIn: "15d",
-    }
+    { expiresIn: "15d" }
   );
 };
 
-export const register = async (req, res) => {
-  const { email, password, name, role, photo, gender } = req.body;
+export const registerUser = async (req, res) => {
+  const { name, email, password, role, photo, gender } = req.body;
 
   try {
+    // Check if user already exists
     let user = null;
 
     if (role === "client") {
@@ -25,15 +25,15 @@ export const register = async (req, res) => {
       user = await Lawyer.findOne({ email });
     }
 
-    // check if usr exist
     if (user) {
-      return res.status(400).json({ message: "User already exist" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
-    // hash password
+    // hashing password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
+    // Create and save user based on the role
     if (role === "client") {
       user = new User({
         name,
@@ -44,7 +44,6 @@ export const register = async (req, res) => {
         role,
       });
     }
-
     if (role === "lawyer") {
       user = new Lawyer({
         name,
@@ -57,14 +56,13 @@ export const register = async (req, res) => {
     }
 
     await user.save();
-
     res
       .status(200)
-      .json({ success: true, message: "User seccessfully created" });
+      .json({ success: true, message: "user successfully created" });
   } catch (err) {
     res
-      .status(200)
-      .json({ success: false, message: "Internal server error, try again" });
+      .status(500)
+      .json({ success: false, message: "Internal server error! Try again" });
   }
 };
 
@@ -73,43 +71,48 @@ export const login = async (req, res) => {
 
   try {
     let user = null;
+
+    // Check the user's role and retrieve from the appropriate collection
     const client = await User.findOne({ email });
     const lawyer = await Lawyer.findOne({ email });
 
     if (client) {
       user = client;
-    }
-    if (lawyer) {
+    } else if (lawyer) {
       user = lawyer;
     }
 
-    // check if user exist or not
+    // Check if user exists
     if (!user) {
-      return res.status(404).json({ message: "User not found!" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Credentials" });
     }
 
-    // compare password
-    const isPasswordMatch = bcrypt.compare(req.body.password, user.password);
-
+    // check password
+    const isPasswordMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
     if (!isPasswordMatch) {
       return res
         .status(400)
-        .json({ status: false, message: "Invalid credential" });
+        .json({ success: false, message: "Invalid Credentials" });
     }
+
+    const { password, role, appointments, ...rest } = user._doc;
 
     // get token
     const token = generateToken(user);
 
-    const { password, role, appoinments, ...rest } = user._doc;
-
     res.status(200).json({
-      status: true,
+      success: true,
       message: "Successfully login",
       token,
       data: { ...rest },
       role,
     });
-  } catch (err) {
-    res.status(500).json({ status: false, message: "Failed to login!" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Failed to login" });
   }
 };

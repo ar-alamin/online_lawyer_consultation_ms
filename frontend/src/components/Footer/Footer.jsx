@@ -12,7 +12,7 @@ const socialLinks = [
     icon: <AiFillGithub className="group-hover:text-white w-4 h-5" />,
   },
   {
-    path: "https://www.linkedin.com/in/abdur-rahman-alamin/",
+    path: "https://www.linkedin.com/in/aralaminofficial/",
     icon: <RiLinkedinFill className="group-hover:text-white w-4 h-5" />,
   },
   {
@@ -148,7 +148,7 @@ const Footer = () => {
 
         <div className="mt-5 text-center">
           <p className="text-[14px] text-textColor">
-            Copyright © {year} developed by Abdur Rahman all right reserved.
+            Copyright © {year} developed by OLCMS Team all right reserved.
           </p>
         </div>
       </div>

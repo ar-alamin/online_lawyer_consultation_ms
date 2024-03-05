@@ -4,21 +4,21 @@
 
 @layer base {
   section {
-    @apply py-[50px];
+    @apply py-[75px];
   }
 }
 
 @layer components {
   .btn {
-    @apply bg-buttonBgColor py-[10px] px-[35px] rounded-[50px] text-white font-[600] mt-[38px];
+    @apply bg-buttonBgColor py-[15px] px-[35px] rounded-[50px] text-white font-[600] mt-[38px];
   }
 
   .container {
-    @apply max-w-full w-[90%] px-[20px] mx-auto;
+    @apply max-w-full w-4/5 px-[20px] mx-auto;
   }
 
   .header {
-    @apply bg-[url('./assets/images/mask.png')] bg-no-repeat bg-cover bg-center w-full h-[80px] leading-[100px];
+    @apply bg-[url('./assets/images/mask.png')] bg-no-repeat bg-cover bg-center w-full h-[100px] leading-[100px];
   }
 
   .hero__section {
@@ -26,11 +26,11 @@
   }
 
   .text__para {
-    @apply text-[16px] leading-[30px] text-textColor font-[400] mt-[18px];
+    @apply text-[18px] leading-[30px] text-textColor font-[400] mt-[18px];
   }
 
   .heading {
-    @apply text-[30px] leading-[54px] font-[700] text-headingColor;
+    @apply text-[44px] leading-[54px] font-[700] text-headingColor;
   }
 
   .form__label {
